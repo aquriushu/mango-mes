@@ -3,6 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
+    <modules>
+        <module>mango-common</module>
+        <module>mango-bkl</module>
+    </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -35,16 +39,30 @@
     </properties>
 
     <dependencies>
+
+        <!-- ========== 通用工具 ========== -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>  <!-- 所有子模块自动继承，且不会传递到最终包 -->
+            <!-- provided 是 Maven 依赖的一个范围（scope），意思是：
+             这个依赖在编译和测试代码时需要，但在最终打包时不要把它打进包里，因为部署环境（如 JDK、Tomcat 容器）已经自带了。 -->
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.8.1</version>
         </dependency>
+
+        <!-- 避免重复造轮子的工具，当下使用率最高是对象转map -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.44</version>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>

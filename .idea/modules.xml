@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/mango-bkl/mango-bkl.iml" filepath="$PROJECT_DIR$/mango-bkl/mango-bkl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mango-common/mango-common.iml" filepath="$PROJECT_DIR$/mango-common/mango-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/mango-mes.iml" filepath="$PROJECT_DIR$/mango-mes.iml" />
     </modules>
   </component>
