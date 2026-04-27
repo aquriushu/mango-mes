@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,8 +25,8 @@ public class Employee implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "employee_id", type = IdType.ASSIGN_ID)
-    private Long employeeId;
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    private Long id;
 
     @TableField("number")
     private String number;
@@ -34,10 +35,10 @@ public class Employee implements Serializable {
     private String name;
 
     @TableField("create_time")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @TableField("modify_time")
-    private Date modifyTime;
+    private LocalDateTime modifyTime;
 
     @TableField("enable")
     private Boolean enable;
