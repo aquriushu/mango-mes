@@ -8,12 +8,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="mango-bkl" />
+        <module name="mango-generator" />
         <module name="mango-common" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="mango-bkl" target="17" />
       <module name="mango-common" target="17" />
+      <module name="mango-generator" target="17" />
       <module name="mango-mes" target="17" />
     </bytecodeTargetLevel>
   </component>
@@ -21,6 +23,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="mango-bkl" options="-parameters" />
       <module name="mango-common" options="-parameters" />
+      <module name="mango-generator" options="-parameters" />
       <module name="mango-mes" options="-parameters" />
     </option>
   </component>

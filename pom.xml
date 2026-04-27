@@ -6,6 +6,7 @@
     <modules>
         <module>mango-common</module>
         <module>mango-bkl</module>
+        <module>mango-generator</module>
     </modules>
 
     <parent>
