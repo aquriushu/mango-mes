@@ -2,20 +2,22 @@ package com.mango.bkl.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.mango.bkl.constant.RedisConst;
 import com.mango.bkl.entity.Employee;
 import com.mango.bkl.mapper.EmployeeMapper;
 import com.mango.bkl.service.EmployeeService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mango.common.dto.bkl.EmployeeCreateDto;
 import com.mango.common.exception.BizException;
 import com.mango.common.vo.bkl.EmployeeVo;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
-import java.util.Date;
-import java.util.HashMap;
+import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -27,6 +29,9 @@ import java.util.Map;
  */
 @Service
 public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> implements EmployeeService {
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public EmployeeVo insertOne(EmployeeCreateDto createDto) {
@@ -49,16 +54,45 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
 
         // 转换
         Employee employee = BeanUtil.copyProperties(createDto, Employee.class);
+        // 设置默认值
+        employee.setCreateTime(LocalDateTime.now());
+        employee.setModifyTime(LocalDateTime.now());
+        employee.setEnable(true);
+
         // 直接保存，这里的异常不要手动获取，直接使用MyBatis-Plus 的 save 方法内部抛出的异常，会由全局异常捕获。
         // 因为这里如果保存报错，并不是BizException可预测的异常（如：用户已存在）
         this.save(employee);
-
-        return null;
+        return queryOneById(String.valueOf(employee.getId()));
     }
 
     @Override
     public EmployeeVo queryOneById(String id) {
-        return null;
+        Map<Object, Object> map = redisTemplate.opsForHash().entries(RedisConst.EMPLOYEE_HASH_KEY_PREFIX + id);
+
+        if (CollectionUtils.isEmpty(map)) {
+            Employee employee = super.getById(id);
+            if (employee == null) {
+                throw new BizException("用户不存在");
+            } else {
+                // 这两步不是原子操作，可改为lua脚本。当前使用降级方法：为redis操作添加try...catch，捕获异常，回滚
+                try {
+                    redisTemplate.opsForHash().putAll(RedisConst.EMPLOYEE_HASH_KEY_PREFIX + id, BeanUtil.beanToMap(employee));
+                    redisTemplate.expire(RedisConst.EMPLOYEE_HASH_KEY_PREFIX + id, RedisConst.EMPLOYEE_EXPIRE_TIME, TimeUnit.SECONDS);
+                } catch (Exception e) {
+                    // todo 记录日志
+                    redisTemplate.delete(RedisConst.EMPLOYEE_HASH_KEY_PREFIX + id);
+                    // 无需抛出异常，让结果从数据库正确返回
+                    e.printStackTrace();
+                }
+
+                return BeanUtil.copyProperties(employee, EmployeeVo.class);
+            }
+        } else {
+            // 缓存续期
+            redisTemplate.expire(RedisConst.EMPLOYEE_HASH_KEY_PREFIX + id, RedisConst.EMPLOYEE_EXPIRE_TIME, TimeUnit.SECONDS);
+            return BeanUtil.toBean(map, EmployeeVo.class);
+        }
     }
 
 }
+

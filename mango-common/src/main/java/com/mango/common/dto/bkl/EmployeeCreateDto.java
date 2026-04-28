@@ -1,13 +1,10 @@
 package com.mango.common.dto.bkl;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-
-import java.time.LocalDateTime;
 
 @Data
 public class EmployeeCreateDto {
@@ -20,8 +17,6 @@ public class EmployeeCreateDto {
     @Size(min = 2, max = 10, message = "员工姓名长度必须在 {min} 到 {max} 之间")
     private String name;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime modifyTime;
     private Boolean enable;
 
     @NotBlank(message = "手机号不能为空")
@@ -30,5 +25,7 @@ public class EmployeeCreateDto {
 
     @Email(message = "邮箱格式不正确")
     private String email;
+
+    private String openId;
 
 }
