@@ -5,12 +5,11 @@ import com.mango.common.domain.ApiResult;
 import com.mango.common.dto.bkl.EmployeeCreateDto;
 import com.mango.common.vo.bkl.EmployeeVo;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /*
  * JavaDoc 解释
@@ -55,6 +54,21 @@ public class EmployeeController {
     @PostMapping("/v1/insertOne")
     public ApiResult<EmployeeVo> insertOne(@RequestBody @Valid EmployeeCreateDto createDto) {
         return ApiResult.success(employeeService.insertOne(createDto));
+    }
+
+    /**
+     * 根据ID查询单个员工
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/v1/queryOneById")
+    public ApiResult<EmployeeVo> queryOneById(
+            @RequestParam(required = false) // 去掉springmvc的校验，使用下面的NotBlank校验
+            @NotBlank(message = "id不能为空")
+            @Digits(integer = 19, fraction = 0, message = "员工ID长度不对")
+                    String id) {
+        return ApiResult.success(employeeService.queryOneById(id));
     }
 
 }

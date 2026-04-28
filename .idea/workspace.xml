@@ -5,12 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aa5e26a4-bd1d-45c7-aeb4-bf51e9f8583a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/mango-bkl/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mango-bkl/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mango-bkl/src/main/java/com/mango/bkl/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/mango-bkl/src/main/java/com/mango/bkl/controller/EmployeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mango-bkl/src/main/java/com/mango/bkl/entity/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/mango-bkl/src/main/java/com/mango/bkl/entity/Employee.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mango-bkl/src/main/java/com/mango/bkl/service/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/mango-bkl/src/main/java/com/mango/bkl/service/EmployeeService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mango-bkl/src/main/java/com/mango/bkl/service/impl/EmployeeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/mango-bkl/src/main/java/com/mango/bkl/service/impl/EmployeeServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mango-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mango-common/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mango-common/src/main/java/com/mango/common/constant/ComConst.java" beforeDir="false" afterPath="$PROJECT_DIR$/mango-common/src/main/java/com/mango/common/constant/ComConst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mango-common/src/main/java/com/mango/common/domain/ApiResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/mango-common/src/main/java/com/mango/common/domain/ApiResult.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +133,7 @@
       <option name="presentableId" value="Default" />
       <updated>1777278858887</updated>
       <workItem from="1777278860280" duration="7809000" />
-      <workItem from="1777303059052" duration="5202000" />
+      <workItem from="1777303059052" duration="9324000" />
     </task>
     <servers />
   </component>
@@ -151,16 +151,5 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/mango-bkl/src/main/java/com/mango/bkl/controller/EmployeeController.java</url>
-          <line>56</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

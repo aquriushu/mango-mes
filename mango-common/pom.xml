@@ -30,6 +30,12 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
+        <!-- 全局异常引入的依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

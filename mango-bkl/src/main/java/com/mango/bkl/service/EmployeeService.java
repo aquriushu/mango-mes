@@ -17,4 +17,6 @@ public interface EmployeeService extends IService<Employee> {
 
     EmployeeVo insertOne(EmployeeCreateDto createDto);
 
+    EmployeeVo queryOneById(String id);
+
 }

@@ -1,13 +1,10 @@
 package com.mango.common.domain;
 
-import com.mango.common.constant.ComConst;
+import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
 
 public class ApiResult<T> implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
 
     private int code;
 
@@ -18,35 +15,35 @@ public class ApiResult<T> implements Serializable {
     private boolean isSuccess;
 
     public static <T> ApiResult<T> success() {
-        return restResult(null, ComConst.SUCCESS, null);
+        return restResult(null, HttpStatus.OK.value(), null);
     }
 
     public static <T> ApiResult<T> success(T data) {
-        return restResult(data, ComConst.SUCCESS, null);
+        return restResult(data, HttpStatus.OK.value(), null);
     }
 
     public static <T> ApiResult<T> success(String msg) {
-        return restResult(null, ComConst.SUCCESS, msg);
+        return restResult(null, HttpStatus.OK.value(), msg);
     }
 
     public static <T> ApiResult<T> success(T data, String msg) {
-        return restResult(data, ComConst.SUCCESS, msg);
+        return restResult(data, HttpStatus.OK.value(), msg);
     }
 
     public static <T> ApiResult<T> fail() {
-        return restResult(null, ComConst.FAIL, null);
+        return restResult(null, HttpStatus.BAD_REQUEST.value(), null);
     }
 
     public static <T> ApiResult<T> fail(String msg) {
-        return restResult(null, ComConst.FAIL, msg);
+        return restResult(null, HttpStatus.BAD_REQUEST.value(), msg);
     }
 
     public static <T> ApiResult<T> fail(T data) {
-        return restResult(data, ComConst.FAIL, null);
+        return restResult(data, HttpStatus.BAD_REQUEST.value(), null);
     }
 
     public static <T> ApiResult<T> fail(T data, String msg) {
-        return restResult(data, ComConst.FAIL, msg);
+        return restResult(data, HttpStatus.BAD_REQUEST.value(), msg);
     }
 
     public static <T> ApiResult<T> fail(int code, String msg) {
@@ -58,7 +55,7 @@ public class ApiResult<T> implements Serializable {
         apiResult.setCode(code);
         apiResult.setData(data);
         apiResult.setMsg(msg);
-        apiResult.setSuccess(apiResult.getCode()==ComConst.SUCCESS);
+        apiResult.setSuccess(apiResult.getCode() == HttpStatus.OK.value());
         return apiResult;
     }
 

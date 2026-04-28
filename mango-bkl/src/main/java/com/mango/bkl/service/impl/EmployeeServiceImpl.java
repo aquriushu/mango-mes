@@ -23,4 +23,9 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
     public EmployeeVo insertOne(EmployeeCreateDto createDto) {
         return null;
     }
+
+    @Override
+    public EmployeeVo queryOneById(String id) {
+        return null;
+    }
 }
