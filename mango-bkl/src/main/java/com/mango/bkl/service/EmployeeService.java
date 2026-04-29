@@ -3,6 +3,8 @@ package com.mango.bkl.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mango.bkl.entity.Employee;
 import com.mango.common.dto.bkl.EmployeeCreateDto;
+import com.mango.common.dto.bkl.EmployeeDto;
+import com.mango.common.dto.bkl.EmployeeUpdateDto;
 import com.mango.common.vo.bkl.EmployeeVo;
 
 /**
@@ -17,6 +19,8 @@ public interface EmployeeService extends IService<Employee> {
 
     EmployeeVo insertOne(EmployeeCreateDto createDto);
 
-    EmployeeVo queryOneById(String id);
+    EmployeeDto queryOneById(String id);
+
+    Boolean updateOneById(EmployeeUpdateDto updateDto);
 
 }

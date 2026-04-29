@@ -1,8 +1,11 @@
 package com.mango.bkl.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.mango.bkl.service.EmployeeService;
 import com.mango.common.domain.ApiResult;
 import com.mango.common.dto.bkl.EmployeeCreateDto;
+import com.mango.common.dto.bkl.EmployeeDto;
+import com.mango.common.dto.bkl.EmployeeUpdateDto;
 import com.mango.common.vo.bkl.EmployeeVo;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Digits;
@@ -68,7 +71,20 @@ public class EmployeeController {
             @NotBlank(message = "id不能为空")
             @Digits(integer = 19, fraction = 0, message = "员工ID长度不对")
                     String id) {
-        return ApiResult.success(employeeService.queryOneById(id));
+        EmployeeDto employeeDto = employeeService.queryOneById(id);
+        EmployeeVo employeeVo = BeanUtil.copyProperties(employeeDto, EmployeeVo.class);
+        return ApiResult.success(employeeVo);
+    }
+
+    /**
+     * 根据ID更新单个员工
+     *
+     * @param updateDto
+     * @return
+     */
+    @PostMapping("/v1/updateOneById")
+    public ApiResult<Boolean> updateOneById(@RequestBody @Valid EmployeeUpdateDto updateDto) {
+        return ApiResult.success(employeeService.updateOneById(updateDto));
     }
 
 }
