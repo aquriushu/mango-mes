@@ -40,17 +40,13 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
     @Override
     public EmployeeVo insertOne(EmployeeCreateDto createDto) {
         // 数据库中手机号不能相同
-        LambdaQueryWrapper<Employee> phoneWrapper = new LambdaQueryWrapper<>();
-        phoneWrapper.eq(Employee::getPhone, createDto.getPhone());
-        boolean exists = this.exists(phoneWrapper);
+        boolean exists = this.lambdaQuery().eq(Employee::getPhone, createDto.getPhone()).exists();
         if (exists) {
             throw new BizException("手机号已存在");
         }
 
         // 不能有相同的number+name 的员工
-        LambdaQueryWrapper<Employee> numberNameWrapper = new LambdaQueryWrapper<>();
-        numberNameWrapper.eq(Employee::getNumber, createDto.getNumber()).eq(Employee::getName, createDto.getName());
-        exists = this.exists(numberNameWrapper);
+        exists = this.lambdaQuery().eq(Employee::getNumber, createDto.getNumber()).eq(Employee::getName, createDto.getName()).exists();
         if (exists) {
             throw new BizException("已存在相同【编码、姓名】的员工");
         }
@@ -64,7 +60,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
 
         // 直接保存，这里的异常不要手动获取，直接使用MyBatis-Plus 的 save 方法内部抛出的异常，会由全局异常捕获。
         // 因为这里如果保存报错，并不是BizException可预测的异常（如：用户已存在）
-        this.save(employee);
+        super.save(employee);
         EmployeeDto employeeDto = queryOneById(String.valueOf(employee.getId()));
         return BeanUtil.copyProperties(employeeDto, EmployeeVo.class);
     }
@@ -74,7 +70,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         Map<Object, Object> map = redisTemplate.opsForHash().entries(RedisConst.EMPLOYEE_HASH_KEY_PREFIX + id);
 
         if (CollectionUtils.isEmpty(map)) {
-            Employee employee = super.getById(id);
+            Employee employee = this.getById(id);
             if (employee == null) {
                 throw new BizException("用户不存在");
             } else {
@@ -134,6 +130,18 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         redisTemplate.delete(RedisConst.EMPLOYEE_HASH_KEY_PREFIX + newEmployee.getId());
 
         return true;
+    }
+
+    @Override
+    public Boolean deleteOneById(String id) {
+        // 判断是否存在
+        boolean exists = this.lambdaQuery().eq(Employee::getId, id).exists();
+        if (!exists) {
+            throw new BizException("用户不存在");
+        }
+
+        redisTemplate.delete(RedisConst.EMPLOYEE_HASH_KEY_PREFIX + id);
+        return this.removeById(id);
     }
 
 }

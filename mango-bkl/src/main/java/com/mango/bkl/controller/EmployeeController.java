@@ -48,7 +48,7 @@ public class EmployeeController {
      */
 
     /**
-     * 插入单个员工
+     * 单条：插入员工
      *
      * @param
      * @return
@@ -60,7 +60,7 @@ public class EmployeeController {
     }
 
     /**
-     * 根据ID查询单个员工
+     * 单条：根据ID查询员工
      *
      * @param id
      * @return
@@ -77,7 +77,7 @@ public class EmployeeController {
     }
 
     /**
-     * 根据ID更新单个员工
+     * 单条：根据ID更新员工
      *
      * @param updateDto
      * @return
@@ -85,6 +85,16 @@ public class EmployeeController {
     @PostMapping("/v1/updateOneById")
     public ApiResult<Boolean> updateOneById(@RequestBody @Valid EmployeeUpdateDto updateDto) {
         return ApiResult.success(employeeService.updateOneById(updateDto));
+    }
+
+    /**
+     * 单条：根据ID删除员工
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/v1/deleteOneById/{id}")
+    public ApiResult<Boolean> deleteOneById(@PathVariable String id) {
+        return ApiResult.success(employeeService.deleteOneById(id));
     }
 
 }

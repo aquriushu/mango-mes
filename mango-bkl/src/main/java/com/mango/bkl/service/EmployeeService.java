@@ -23,4 +23,6 @@ public interface EmployeeService extends IService<Employee> {
 
     Boolean updateOneById(EmployeeUpdateDto updateDto);
 
+    Boolean deleteOneById(String employeeId);
+
 }
