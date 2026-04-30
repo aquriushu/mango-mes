@@ -14,7 +14,8 @@ public class EmployeeCreateDto {
     private String number;
 
     @NotBlank(message = "员工姓名不能为空") // 不能为 null、空字符串或纯空格
-    @Size(min = 2, max = 10, message = "员工姓名长度必须在 {min} 到 {max} 之间")
+//    @Size(min = 2, max = 10, message = "员工姓名长度必须在 {min} 到 {max} 之间")  // 这种校验只能校验字符长度，并非中文
+    @Pattern(regexp = "^[\u4e00-\u9fa5]{2,5}$", message = "员工名称必须是2到5个汉字，且不能包含特殊符号")
     private String name;
 
     private Boolean enable;

@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * </p>
  *
  * @author Hu_jie
- * @since 2026-04-27
+ * @since 2026-04-30
  */
 @Mapper
 public interface EmployeeMapper extends BaseMapper<Employee> {

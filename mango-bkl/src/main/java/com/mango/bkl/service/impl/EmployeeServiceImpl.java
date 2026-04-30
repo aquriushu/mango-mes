@@ -98,13 +98,19 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
 
     @Override
     public Boolean updateOneById(EmployeeUpdateDto updateDto) {
+        // 判断是否存在
+        boolean exists = this.lambdaQuery().eq(Employee::getId, updateDto.getId()).exists();
+        if (!exists) {
+            throw new BizException("员工不存在");
+        }
+
         // 判断是否存在相同手机号
         LambdaQueryWrapper<Employee> phoneWrapper = new LambdaQueryWrapper<>();
         // 排除自己
         phoneWrapper.ne(Employee::getId, updateDto.getId());
         if (StringUtils.isNotBlank(updateDto.getPhone())) {
             phoneWrapper.eq(Employee::getPhone, updateDto.getPhone());
-            boolean exists = this.exists(phoneWrapper);
+            exists = this.exists(phoneWrapper);
             if (exists) {
                 throw new BizException("已存在相同手机号");
             }
@@ -116,7 +122,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         numberNameWrapper.ne(Employee::getId, updateDto.getId());
         if (StringUtils.isNotBlank(updateDto.getNumber()) && StringUtils.isNotBlank(updateDto.getName())) {
             numberNameWrapper.eq(Employee::getNumber, updateDto.getNumber()).eq(Employee::getName, updateDto.getName());
-            boolean exists = this.exists(numberNameWrapper);
+            exists = this.exists(numberNameWrapper);
             if (exists) {
                 throw new BizException("已存在相同员工编码和姓名");
             }
@@ -125,6 +131,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         // 更新员工
         Employee newEmployee = new Employee();
         BeanUtil.copyProperties(updateDto, newEmployee, HutoolUtils.excludeNullBlankCopyOptions());
+        newEmployee.setModifyTime(LocalDateTime.now());
         this.updateById(newEmployee);
         // 删除缓存
         redisTemplate.delete(RedisConst.EMPLOYEE_HASH_KEY_PREFIX + newEmployee.getId());

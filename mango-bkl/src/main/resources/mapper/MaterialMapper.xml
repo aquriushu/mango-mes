@@ -8,11 +8,14 @@
         <result column="number" property="number" />
         <result column="name" property="name" />
         <result column="inventory" property="inventory" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_time" property="modifyTime" />
+        <result column="enable" property="enable" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, number, name, inventory
+        id, number, name, inventory, create_time, modify_time, enable
     </sql>
 
 </mapper>

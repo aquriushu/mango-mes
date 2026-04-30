@@ -4,7 +4,7 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.mango.bkl.entity.Employee">
-        <id column="employee_id" property="employeeId" />
+        <id column="id" property="id" />
         <result column="number" property="number" />
         <result column="name" property="name" />
         <result column="create_time" property="createTime" />
@@ -17,7 +17,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        employee_id, number, name, create_time, modify_time, enable, phone, open_id, email
+        id, number, name, create_time, modify_time, enable, phone, open_id, email
     </sql>
 
 </mapper>

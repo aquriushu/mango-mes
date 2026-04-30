@@ -2,7 +2,7 @@ package com.mango.common.dto.bkl;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Data
 public class EmployeeQueryDto {
 
+    @Positive(message = "ID必须为正数")
     @Digits(integer = 19, fraction = 0, message = "员工ID长度不对")
     private String id;
 

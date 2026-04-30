@@ -4,18 +4,20 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author Hu_jie
- * @since 2026-04-27
+ * @since 2026-04-30
  */
 @Getter
 @Setter
@@ -35,4 +37,14 @@ public class Material implements Serializable {
 
     @TableField("inventory")
     private BigDecimal inventory;
+
+    @TableField("enable")
+    private Boolean enable;
+
+    @TableField("create_time")
+    private LocalDateTime createTime;
+
+    @TableField("modify_time")
+    private LocalDateTime modifyTime;
+
 }
