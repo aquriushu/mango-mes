@@ -1,5 +1,6 @@
 package com.mango.common.exception;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.mango.common.domain.ApiResult;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,8 +59,27 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ApiResult<String> handleHttpMessageNotReadable(HttpMessageNotReadableException e) {
-        if (e.getMessage().contains("LocalDateTime") || e.getMessage().contains("DateTimeParseException")) {
-            return ApiResult.fail("时间格式错误，请使用 yyyy-MM-dd HH:mm:ss 格式");
+        Throwable cause = e.getCause();
+
+        // todo 下面的时间校验需要验证哪种方式正确
+//        if (e.getMessage().contains("LocalDateTime") || e.getMessage().contains("DateTimeParseException")) {
+//            return ApiResult.fail("时间格式错误，请使用 yyyy-MM-dd HH:mm:ss 格式");
+//        }
+
+//        // 1. 处理时间格式错误
+//        if (cause instanceof DateTimeParseException) {
+//            return ApiResult.fail("时间格式错误，请使用 yyyy-MM-dd HH:mm:ss 格式");
+//        }
+
+        // 2. 处理 Boolean 类型错误
+        if (cause instanceof InvalidFormatException) {
+            InvalidFormatException ife = (InvalidFormatException) cause;
+            // 判断目标类型是否为 Boolean
+            if (ife.getTargetType() == Boolean.class) {
+                return ApiResult.fail("启用/禁用状态值只能为 true 或 false，请检查输入");
+            }
+            // 其他类型转换错误，例如数字、枚举等（可选）
+            return ApiResult.fail("字段 " + ife.getPathReference() + " 格式错误，期望类型 " + ife.getTargetType().getSimpleName());
         }
         return ApiResult.fail("请求参数格式错误: " + e.getMessage());
     }
