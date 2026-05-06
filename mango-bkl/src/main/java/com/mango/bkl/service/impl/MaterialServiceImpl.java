@@ -9,6 +9,7 @@ import com.mango.bkl.mapper.MaterialMapper;
 import com.mango.bkl.service.MaterialService;
 import com.mango.common.dto.bkl.MaterialCreateDto;
 import com.mango.common.dto.bkl.MaterialDto;
+import com.mango.common.dto.bkl.MaterialInventoryUpdateDto;
 import com.mango.common.dto.bkl.MaterialUpdateDto;
 import com.mango.common.exception.BizException;
 import com.mango.common.util.HutoolUtils;
@@ -133,5 +134,18 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
         return true;
     }
 
+    @Override
+    public Boolean updateInventoryById(MaterialInventoryUpdateDto inventoryUpdateDto) {
+        // 判断是否存在
+        boolean exists = this.lambdaQuery().eq(Material::getId, inventoryUpdateDto.getId()).exists();
+        if (!exists) {
+            throw new BizException("物料不存在");
+        }
 
+        // 更新物料库存
+        Material material = new Material();
+        BeanUtil.copyProperties(inventoryUpdateDto, material, HutoolUtils.excludeNullBlankCopyOptions());
+        material.setModifyTime(LocalDateTime.now());
+        return this.updateById(material);
+    }
 }

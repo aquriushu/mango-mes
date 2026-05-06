@@ -5,6 +5,7 @@ import com.mango.bkl.service.MaterialService;
 import com.mango.common.domain.ApiResult;
 import com.mango.common.dto.bkl.MaterialCreateDto;
 import com.mango.common.dto.bkl.MaterialDto;
+import com.mango.common.dto.bkl.MaterialInventoryUpdateDto;
 import com.mango.common.dto.bkl.MaterialUpdateDto;
 import com.mango.common.vo.bkl.MaterialVo;
 import jakarta.validation.Valid;
@@ -74,6 +75,18 @@ public class MaterialController {
     @PostMapping("/v1/updateOneById")
     public ApiResult<Boolean> updateOneById(@RequestBody @Valid MaterialUpdateDto updateDto) {
         return ApiResult.success(materialService.updateOneById(updateDto));
+    }
+
+    /**
+     * 单条：根据ID更新物料库存
+     * 只更新库存的接口，保证缓存一致性
+     *
+     * @param inventoryUpdateDto
+     * @return
+     */
+    @PostMapping("/v1/updateInventoryById")
+    public ApiResult<Boolean> updateInventoryById(@RequestBody @Valid MaterialInventoryUpdateDto inventoryUpdateDto) {
+        return ApiResult.success(materialService.updateInventoryById(inventoryUpdateDto));
     }
 
 

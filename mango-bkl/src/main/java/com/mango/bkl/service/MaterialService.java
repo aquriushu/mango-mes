@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.mango.bkl.entity.Material;
 import com.mango.common.dto.bkl.MaterialCreateDto;
 import com.mango.common.dto.bkl.MaterialDto;
+import com.mango.common.dto.bkl.MaterialInventoryUpdateDto;
 import com.mango.common.dto.bkl.MaterialUpdateDto;
 import com.mango.common.vo.bkl.MaterialVo;
 
@@ -24,5 +25,7 @@ public interface MaterialService extends IService<Material> {
     Boolean deleteOneById(String employeeId);
 
     Boolean updateOneById(MaterialUpdateDto updateDto);
+
+    Boolean updateInventoryById(MaterialInventoryUpdateDto inventoryUpdateDto);
 
 }
